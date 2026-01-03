@@ -1,0 +1,18 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model QRCode {
+  id        String   @id @default(uuid())
+  content   String
+  config    Json     @default("{}")
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  shortCode String?   @unique
+
+  @@index([expiresAt])
+}
