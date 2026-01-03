@@ -9,7 +9,7 @@ datasource db {
 model QRCode {
   id        String   @id @default(uuid())
   content   String
-  config    Json     @default("{}")
+  config    String   @default("{}")
   createdAt DateTime @default(now())
   expiresAt DateTime
   shortCode String?   @unique

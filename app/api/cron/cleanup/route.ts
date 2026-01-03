@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 
-export async function DELETE(request: Request) {
+export async function DELETE(_request: Request) {
     try {
         const deleted = await prisma.qRCode.deleteMany({
             where: {

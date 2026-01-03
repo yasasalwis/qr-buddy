@@ -1,9 +1,9 @@
 'use server';
 
 import { prisma } from '@/lib/prisma';
-import { redirect } from 'next/navigation';
+import { encrypt } from '@/lib/crypto';
 
-export async function saveQR(content: string, config: any) {
+export async function saveQR(content: string, config: unknown) {
     if (!content) {
         throw new Error('Content is required');
     }
@@ -38,8 +38,8 @@ export async function saveQR(content: string, config: any) {
 
     const qrCode = await prisma.qRCode.create({
         data: {
-            content,
-            config: config || {},
+            content: encrypt(content),
+            config: encrypt(JSON.stringify(config || {})),
             expiresAt: oneYearFromNow,
             shortCode,
         },

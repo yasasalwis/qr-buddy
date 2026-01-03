@@ -19,7 +19,7 @@ export default function PricingPage() {
                         Always Free
                     </h1>
                     <p className="text-xl text-white/60">
-                        Professional tools shouldn't always have a price tag.
+                        Professional tools shouldn&apos;t always have a price tag.
                     </p>
                 </div>
 

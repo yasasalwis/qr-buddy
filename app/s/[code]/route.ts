@@ -1,7 +1,7 @@
-
 import { prisma } from '@/lib/prisma';
 import { redirect } from 'next/navigation';
 import { NextRequest } from 'next/server';
+import { decrypt } from '@/lib/crypto';
 
 export async function GET(
     request: NextRequest,
@@ -22,7 +22,7 @@ export async function GET(
     }
 
     // Add http/https if missing
-    let target = qrCode.content;
+    let target = decrypt(qrCode.content);
     if (!/^https?:\/\//i.test(target)) {
         target = 'https://' + target;
     }

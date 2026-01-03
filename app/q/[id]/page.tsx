@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import { QRPreview } from '@/components/QRPreview';
+import { decrypt } from '@/lib/crypto';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
@@ -28,7 +29,8 @@ export default async function SharedQRPage({ params }: { params: Promise<{ id: s
         );
     }
 
-    const config = qrCode.config as any;
+    const config = JSON.parse(decrypt(qrCode.config));
+    const content = decrypt(qrCode.content);
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white p-8 font-sans flex flex-col items-center">
@@ -46,7 +48,7 @@ export default async function SharedQRPage({ params }: { params: Promise<{ id: s
 
                 <div className="transform hover:scale-105 transition-duration-500">
                     <QRPreview
-                        value={qrCode.content}
+                        value={content}
                         config={{
                             ...config,
                             size: 300 // ensure good viewing size
@@ -54,12 +56,7 @@ export default async function SharedQRPage({ params }: { params: Promise<{ id: s
                     />
                 </div>
 
-                <div className="text-center space-y-2">
-                    <p className="text-gray-400">Content stored:</p>
-                    <code className="block bg-black/40 px-4 py-2 rounded border border-white/10 text-emerald-400 break-all max-w-lg">
-                        {qrCode.content}
-                    </code>
-                </div>
+
 
                 {qrCode.shortCode && (
                     <div className="text-center space-y-2 mt-4">
