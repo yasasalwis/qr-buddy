@@ -5,11 +5,27 @@ import { Settings, Image as ImageIcon, Palette, Type, Link as LinkIcon, FileText
 
 type QRType = 'link' | 'text' | 'email' | 'wifi' | 'phone' | 'sms';
 
+interface QRConfig {
+    size: number;
+    fgColor: string;
+    bgColor: string;
+    qrStyle: 'squares' | 'dots';
+    eyeRadius: number;
+    ecLevel: 'L' | 'M' | 'Q' | 'H';
+    logoImage: string;
+    logoWidth: number;
+    logoHeight: number;
+    logoOpacity: number;
+    logoPadding: number;
+    logoPaddingStyle: 'square' | 'circle';
+    removeQrCodeBehindLogo: boolean;
+}
+
 interface QRControlsProps {
     value: string;
     setValue: (val: string) => void;
-    config: any;
-    setConfig: (cfg: any) => void;
+    config: QRConfig;
+    setConfig: (cfg: QRConfig) => void;
 }
 
 export const QRControls: React.FC<QRControlsProps> = ({ value, setValue, config, setConfig }) => {
@@ -22,11 +38,11 @@ export const QRControls: React.FC<QRControlsProps> = ({ value, setValue, config,
     const [smsState, setSmsState] = useState({ phone: '', message: '' });
     const [textState, setTextState] = useState('');
 
-    const updateConfig = (updates: Partial<typeof config>) => {
+    const updateConfig = (updates: Partial<QRConfig>) => {
         setConfig({ ...config, ...updates });
     };
 
-    const handleChange = (key: string, val: any) => {
+    const handleChange = (key: keyof QRConfig, val: string | number | boolean) => {
         updateConfig({ [key]: val });
     };
 
@@ -62,7 +78,7 @@ export const QRControls: React.FC<QRControlsProps> = ({ value, setValue, config,
                 setValue(newValue);
                 break;
         }
-    }, [activeType, wifiState, emailState, phoneState, smsState, textState]);
+    }, [activeType, wifiState, emailState, phoneState, smsState, textState, setValue]);
 
     const renderContentInputs = () => {
         switch (activeType) {

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React from 'react';
 import { QRCode } from 'react-qrcode-logo';
 import { Download } from 'lucide-react';
 
@@ -18,8 +18,6 @@ interface QRPreviewProps {
 }
 
 export const QRPreview: React.FC<QRPreviewProps> = ({ value, config }) => {
-    const ref = useRef<any>(null);
-
     const downloadQR = () => {
         const canvas = document.getElementById('react-qrcode-logo') as HTMLCanvasElement;
         if (canvas) {
@@ -40,7 +38,6 @@ export const QRPreview: React.FC<QRPreviewProps> = ({ value, config }) => {
                     {...config}
                     value={value}
                     id="react-qrcode-logo"
-                    ref={ref}
                 />
             </div>
             <button
